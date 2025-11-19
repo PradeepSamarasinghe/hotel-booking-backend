@@ -1,6 +1,8 @@
 import User from '../models/user.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
+import dotenv from 'dotenv'
+dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET || 'replace_with_strong_secret'
 const SALT_ROUNDS = Number(process.env.SALT_ROUNDS) || 10
@@ -53,7 +55,7 @@ export async function loginUser(req, res) {
       type: user.type
     }
 
-    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' })
+    const token = jwt.sign(payload, process.env.JWT_KEY, { expiresIn: '1h' })
 
     // return token and safe user info (no password)
     const safeUser = {
