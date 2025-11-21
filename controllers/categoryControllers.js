@@ -1,5 +1,5 @@
 import Category from "../models/category.js";
-
+import { isAdminValid } from "./userControllers.js";
 export function createCategory(req, res) {
     if(req.user == null) {
         return res.status(401).json({ message: 'Please login to create a category' });
@@ -70,4 +70,23 @@ export function getCategoryByName(req, res) {
         }
     )
 
+}
+export function updateCategory(req, res) {
+    const adminValid = isAdminValid(req);
+
+    if(!adminValid) {
+        return res.status(403).json({ message: 'You do not have permission to update a category' });
+    }
+
+    const name = req.params.name;
+
+    Category.updateOne({ name: name }, req.body).then(
+        () => {
+            res.status(200).json({ message : 'Category Updated Successfully'})
+        }
+    ).catch(
+        (err) => {
+            res.status(500).json({ message: 'Error updating category', error: err.message }); 
+        }
+    )
 }
