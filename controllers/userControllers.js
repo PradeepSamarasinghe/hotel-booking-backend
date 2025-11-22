@@ -74,6 +74,7 @@ export async function loginUser(req, res) {
     return res.status(500).json({ message: 'Error logging in', error: err.message })
   }
 }
+//admin validation
 export function isAdminValid(req){
     if(req.user == null) {
         return false;
@@ -83,3 +84,13 @@ export function isAdminValid(req){
     }
     return true;
 } 
+//customer validation
+export function isCustomerValid(req){
+  if(req.user == null){
+      return false;
+  }
+  if(req.user.type !== 'customer'){
+      return false;
+  }
+  return true;
+}

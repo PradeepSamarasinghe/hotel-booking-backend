@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import categoryRouter from './routes/categoryRoute.js';
 import roomRouter from './routes/roomsRoute.js';
+import bookingRouter from './routes/bookingRoute.js';
 
 dotenv.config();
 
@@ -51,6 +52,7 @@ app.use('/api/users', usersRoute); // Mount the users router on the /users path
 app.use('/api/gallery', galleryItemRouter); // Mount the gallery item router on the /gallery path
 app.use('/api/category', categoryRouter); // Mount the category router on the /categories path
 app.use('/api/rooms', roomRouter); // Mount the room router on the /rooms path
+app.use('/api/bookings', bookingRouter); // Mount the booking router on the /bookings path
 
 app.listen(5000, () => { 
     console.log('Server is running on port 5000');
