@@ -7,9 +7,10 @@ export function createCategory(req, res) {
     if(req.user.type !== 'admin') {
         return res.status(403).json({ message: 'You do not have permission to create a category' });
     }
-    const categoryData = req.body.category;
+    const categoryData = req.Category || req.body;
     const newCategory = new Category(categoryData);
-
+    
+    console.log(newCategory);
     newCategory.save().then(
         (result) => {
             res.status(201).json({ message : 'Category Created Successfully', result: result})

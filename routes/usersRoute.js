@@ -1,5 +1,5 @@
 import express from 'express';
-import { postUser, loginUser } from '../controllers/userControllers.js';
+import { postUser, loginUser, getUser } from '../controllers/userControllers.js';
 
 const usersRouter = express.Router();
 
@@ -7,5 +7,6 @@ const usersRouter = express.Router();
 
 usersRouter.post('/', postUser); 
 usersRouter.post('/login', loginUser); // Login user
+usersRouter.get('/', getUser); // Get current logged-in user
 
 export default usersRouter;

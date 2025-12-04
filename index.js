@@ -8,11 +8,15 @@ import dotenv from 'dotenv';
 import categoryRouter from './routes/categoryRoute.js';
 import roomRouter from './routes/roomsRoute.js';
 import bookingRouter from './routes/bookingRoute.js';
+import cors from 'cors';
+
 
 dotenv.config();
 
 
 const app = express();
+
+app.use(cors());
 
 app.use(bodyParser.json());//middleware to parse JSON bodies
 
@@ -22,7 +26,7 @@ app.use((req, res, next) => {
     const token = req.header("Authorization")?.replace("Bearer ", "");
 
     if(token != null) {
-        jwt.verify(token, process.env.JWT_KEY, 
+        jwt.verify(token, process.env.JWT_SECRET, 
             (err, decoded) => {
                 if(decoded) {
                     req.user = decoded; // Attach the decoded user information to the request object

@@ -55,7 +55,7 @@ export async function loginUser(req, res) {
       type: user.type
     }
 
-    const token = jwt.sign(payload, process.env.JWT_KEY, { expiresIn: '1h' })
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' })
 
     // return token and safe user info (no password)
     const safeUser = {
@@ -93,4 +93,20 @@ export function isCustomerValid(req){
       return false;
   }
   return true;
+}
+export async function getUser(req, res) {
+  const user = req.user;
+  // console.log(user);
+
+    if(user == null) {
+        res.json({
+            message: "No user logged in"
+        })
+    }else{
+        res.json({
+          message: "User logged in",
+          user: user
+        })
+
+    }
 }
