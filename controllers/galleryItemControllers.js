@@ -37,3 +37,23 @@ export function getGalleryItem(req, res) {
         }
     ); 
 }
+
+export function deleteGalleryItem(req, res) {
+    const user = req.user;
+    if(user == null) {
+        return res.status(401).json({ message: 'Please login to delete a gallery item' });
+    }
+    if(user.type !== 'admin') {
+        return res.status(403).json({ message: 'You do not have permission to delete a gallery item' });
+    }
+    const id = req.params.id;
+    GalleryItem.findByIdAndDelete(id).then(
+        () => {
+            res.status(200).json({ message : 'Gallery Item Deleted Successfully'})
+        }
+    ).catch(
+        (err) => {
+            res.status(500).json({ message: 'Error deleting gallery item', error: err.message }); 
+        }
+    )
+}
