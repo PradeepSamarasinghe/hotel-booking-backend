@@ -57,3 +57,24 @@ export function deleteGalleryItem(req, res) {
         }
     )
 }
+
+export function updateGalleryItem(req, res) {
+    const user = req.user;
+    if(user == null) {
+        return res.status(401).json({ message: 'Please login to update a gallery item' });
+    }
+    if(user.type !== 'admin') {
+        return res.status(403).json({ message: 'You do not have permission to update a gallery item' });
+    }
+    const id = req.params.id;
+    const updatedData = req.body.item;
+    GalleryItem.findByIdAndUpdate(id, updatedData, { new: true }).then(
+        (updatedItem) => {
+            res.status(200).json({ message : 'Gallery Item Updated Successfully', item: updatedItem})
+        }
+    ).catch(
+        (err) => {
+            res.status(500).json({ message: 'Error updating gallery item', error: err.message }); 
+        }
+    )
+}
