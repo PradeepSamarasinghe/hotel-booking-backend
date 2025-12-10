@@ -33,3 +33,17 @@ export function createBooking(req, res) {
         }
     )
 }
+export function getBookings(req, res) {
+    if(!isCustomerValid(req)) {
+        return res.status(403).json({ message: 'You do not have permission to view bookings' });
+    }
+    Booking.find({ email: req.user.email })
+        .then((bookingsList) => {
+            res.status(200).json(bookingsList);
+        })
+        .catch((err) => {   
+            res.status(500).json({ message: 'Error fetching bookings', error: err.message });
+        }
+    );
+}
+
