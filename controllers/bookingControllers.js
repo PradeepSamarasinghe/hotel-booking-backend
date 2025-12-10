@@ -46,4 +46,22 @@ export function getBookings(req, res) {
         }
     );
 }
+export function retrievBookingByDate(req, res) {
+    const startDate = req.body.checkInDate;
+    const endDate = req.body.checkOutDate;
+
+    console.log("Start Date:", startDate);
+    console.log("End Date:", endDate);
+    
+    Booking.find({ 
+        checkInDate: { $gte: new Date(startDate) }, 
+        checkOutDate: { $lte: new Date(endDate) }
+    })
+    .then((bookingsList) => {
+        res.status(200).json(bookingsList);
+    })
+    .catch((err) => {   
+        res.status(500).json({ message: 'Error fetching bookings by date', error: err.message });
+    });
+}
 
